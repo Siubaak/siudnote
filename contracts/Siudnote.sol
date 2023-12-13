@@ -42,20 +42,25 @@ contract DNote {
     notebooks[msg.sender] = notebook;
   }
 
-  function del(uint256 index) external {
+  function del(uint256 index, bool all) external {
     Notebook memory notebook = notebooks[msg.sender];
     require(notebook.owner != address(0), "Fail to find the notebook");
     require(notebook.notes.length > index, "Index is out of notebook notes range");
-    uint256 newSize = notebook.notes.length - 1;
-    string[] memory newNotes = new string[](newSize);
-    for (uint256 i = 0; i < notebook.notes.length; ++i) {
-      if (i < index) {
-        newNotes[i] = notebook.notes[i];
-      } else if (i > index) {
-        newNotes[i - 1] = notebook.notes[i];
+    if (all) {
+      // Delete all notes
+      notebook.notes = new string[](0);
+    } else {
+      uint256 newSize = notebook.notes.length - 1;
+      string[] memory newNotes = new string[](newSize);
+      for (uint256 i = 0; i < notebook.notes.length; ++i) {
+        if (i < index) {
+          newNotes[i] = notebook.notes[i];
+        } else if (i > index) {
+          newNotes[i - 1] = notebook.notes[i];
+        }
       }
+      notebook.notes = newNotes;
     }
-    notebook.notes = newNotes;
     notebooks[msg.sender] = notebook;
   }
 
