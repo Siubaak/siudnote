@@ -8,7 +8,6 @@ contract DNote {
   struct Notebook {
     address owner;
     string[] notes;
-    uint256 timestamp;
   }
 
   uint8 NOTE_MAX_LENGTH = 100;
