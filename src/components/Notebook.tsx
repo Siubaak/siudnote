@@ -22,10 +22,6 @@ export function Notebook() {
     isDelSuccess && (location.reload())
   }, [isDelSuccess])
 
-  if (!(data as string[]).length) {
-    (data as string[]).push('1fdsafsdafsdafsdfasd', '2fdsafsdafsdafsdfasd', '3fdsafsdafsdafsdfasd', '4fdsafsdafsdafsdfasd', '5fdsafsdafsdafsdfasd')
-  }
-
   return (
     <div className="flex flex-wrap self-start">
       {isLoading ? <div className="text-slate-400">Loading</div> : (
