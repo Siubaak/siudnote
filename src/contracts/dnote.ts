@@ -9,6 +9,11 @@ const abi = [
         "internalType": "uint256",
         "name": "index",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "all",
+        "type": "bool"
       }
     ],
     "name": "del",
@@ -49,7 +54,7 @@ const abi = [
 ]
 
 export default {
-  address: '0x91bc15e07AdC776E66ec3ee36481b43558d37524' as `0x${string}`, // sepolia
+  address: '0x5B95C980607A52e5E3Cc772BB25a3865D8BD0374' as `0x${string}`, // sepolia
   // address: '0x5FbDB2315678afecb367f032d93F642f64180aa3' as `0x${string}`,
   abi,
 }

@@ -23,7 +23,7 @@ export function NoteInput() {
         onChange={e => setNote(e.target.value)}
       ></input>
       <button
-        className="bg-slate-100 rounded px-2 py-1 text-slate-800"
+        className="bg-slate-800 rounded px-2 py-1 text-slate-200"
         disabled={isLoading}
         onClick={() => note && write({ args: [note] })}
       >
