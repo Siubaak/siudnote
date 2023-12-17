@@ -6,14 +6,14 @@ export function Connect() {
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect()
   const { disconnect } = useDisconnect()
 
-  const shorter = (addr: string | void) => addr && addr.slice(0, 8) + '...' + addr.slice(-6) || ''
+  const shorter = (addr: string | void) => addr && addr.slice(0, 6) + '...' + addr.slice(-4) || ''
 
   return (
     <div>
       {error && <span className="pr-2 text-red-800">{(error as BaseError).shortMessage}</span>}
 
       {isConnected && (<>
-        <span title={address} className="pr-2 text-slate-100">{shorter(address)}</span>
+        <span title={address} className="pr-2 text-slate-100 hidden min-[360px]:inline">{shorter(address)}</span>
         <button className="bg-red-100 rounded px-2 py-1 text-red-800" onClick={() => disconnect()}>
           Disconnect
         </button>

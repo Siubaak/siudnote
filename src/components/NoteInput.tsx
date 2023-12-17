@@ -20,10 +20,10 @@ export function NoteInput() {
   }, [isSuccess, isClearSuccess])
 
   return (
-    <div className="flex">
+    <div className="flex sm:self-start">
       <input
         disabled={isLoading || isCLearLoading}
-        className="border rounded px-2"
+        className="border rounded px-2 flex-1"
         placeholder="Write Note"
         onChange={e => setNote(e.target.value)}
       ></input>

@@ -22,12 +22,16 @@ export function Notebook() {
     isDelSuccess && (location.reload())
   }, [isDelSuccess])
 
+  if (!(data as string[]).length) {
+    (data as string[]).push('1fdsafsdafsdafsdfasd', '2fdsafsdafsdafsdfasd', '3fdsafsdafsdafsdfasd', '4fdsafsdafsdafsdfasd', '5fdsafsdafsdafsdfasd')
+  }
+
   return (
-    <div className="flex flex-row-reverse justify-end mt-2">
+    <div className="flex flex-wrap self-start">
       {isLoading ? <div className="text-slate-400">Loading</div> : (
         (data as string[]).length ? (data as string[]).map((n, i) => (
           <div
-            className="bg-slate-100 rounded px-2 py-1 text-slate-800 mr-2"
+            className="bg-slate-100 rounded px-2 py-1 text-slate-800 mr-2 mb-2"
             key={i}
             onClick={() => {
               if (isDelLoading) return
