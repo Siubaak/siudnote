@@ -47,8 +47,8 @@ export function Notebook() {
   const [activeIdx, setActiveIdx] = useState(-1);
 
   return (
-    <div className="flex flex-wrap self-start overflow-y-scroll no-scrollbar">
-      {isLoading ? <div className="text-slate-400">Loading</div> : (
+    <div className="flex flex-wrap overflow-y-scroll no-scrollbar self-center sm:self-start">
+      {isLoading ? <div className="text-slate-400 my-2 sm:mx-2">Loading</div> : (
         (data as string[]).length ? (data as string[]).map((n, i) => (
           <div
             className={
@@ -73,7 +73,7 @@ export function Notebook() {
               <span>X</span>
             </div>
           </div>
-        )) : <div className="text-slate-400">Empty</div>
+        )) : <div className="text-slate-400 my-2 sm:mx-2">Empty</div>
       )}
     </div>
   )
