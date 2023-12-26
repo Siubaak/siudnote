@@ -30,7 +30,7 @@ export function NoteInput() {
       <button
         className="bg-slate-800 rounded ml-2 px-2 py-1 text-slate-100"
         disabled={isLoading || isCLearLoading}
-        onClick={() => note && write({ args: [note] })}
+        onClick={() => note && write({ args: [encodeURIComponent(note)] })}
       >
         {isLoading ? 'Saving' : 'Save' }
       </button>
