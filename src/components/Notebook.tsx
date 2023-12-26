@@ -1,3 +1,4 @@
+import { decode } from '../utils/encoder'
 import { useEffect, useState } from 'react'
 import { useAccount, useContractRead, useContractWrite, useWaitForTransaction } from 'wagmi'
 import dnoteContract from '../contracts/dnote'
@@ -31,7 +32,7 @@ export function Notebook() {
     account: address,
     functionName: 'read',
   })
-  const { write: del, data: delData } = useContractWrite({
+  const { write: del, data: delData, error: delErr } = useContractWrite({
     ...dnoteContract,
     functionName: 'del',
   })
@@ -41,8 +42,12 @@ export function Notebook() {
   } = useWaitForTransaction({ hash: delData?.hash })
 
   useEffect(() => {
-    isDelSuccess && (location.reload())
-  }, [isDelSuccess])
+    if (isDelSuccess) {
+      location.reload()
+    } else if (delErr) {
+      alert(delErr)
+    }
+  }, [isDelSuccess, delErr])
 
   const [activeIdx, setActiveIdx] = useState(-1);
 
@@ -59,7 +64,7 @@ export function Notebook() {
             onMouseEnter={() => setActiveIdx(i)}
             onMouseLeave={() => setActiveIdx(-1)}
           >
-            <NoteContent n={decodeURIComponent(n)}></NoteContent>
+            <NoteContent n={decode(n)}></NoteContent>
             <div
               className={
                 'absolute right-0 bottom-0 text-red-800 bg-red-100 w-6 h-6 pl-1 rounded-tl-xl flex justify-center items-center cursor-pointer'

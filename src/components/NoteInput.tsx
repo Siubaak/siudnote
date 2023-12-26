@@ -1,23 +1,30 @@
+import { encode } from '../utils/encoder';
 import { useEffect, useState } from 'react'
-import dnoteContract from '../contracts/dnote'
 import { useContractWrite, useWaitForTransaction } from 'wagmi'
+import dnoteContract from '../contracts/dnote'
 
 export function NoteInput() {
   const [note, setNote] = useState('');
-  const { write, data } = useContractWrite({
+  const { write, data, error } = useContractWrite({
     ...dnoteContract,
     functionName: 'write',
   })
   const { isLoading, isSuccess } = useWaitForTransaction({ hash: data?.hash })
-  const { write: clear, data: clearData } = useContractWrite({
+  const { write: clear, data: clearData, error: clearErr } = useContractWrite({
     ...dnoteContract,
     functionName: 'del',
   })
   const { isLoading: isCLearLoading, isSuccess: isClearSuccess } = useWaitForTransaction({ hash: clearData?.hash })
 
   useEffect(() => {
-    (isSuccess || isClearSuccess) && (location.reload())
-  }, [isSuccess, isClearSuccess])
+    if (isSuccess || isClearSuccess) {
+      location.reload()
+    } else if (error) {
+      alert(error)
+    } else if (clearErr) {
+      alert(clearErr)
+    }
+  }, [isSuccess, error, isClearSuccess, clearErr])
 
   return (
     <div className="flex sm:self-start pt-2 sm:mr-3">
@@ -30,7 +37,7 @@ export function NoteInput() {
       <button
         className="bg-slate-800 rounded ml-2 px-2 py-1 text-slate-100"
         disabled={isLoading || isCLearLoading}
-        onClick={() => note && write({ args: [encodeURIComponent(note)] })}
+        onClick={() => note && write({ args: [encode(note)] })}
       >
         {isLoading ? 'Saving' : 'Save' }
       </button>

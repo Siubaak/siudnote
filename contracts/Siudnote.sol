@@ -10,7 +10,7 @@ contract DNote {
     string[] notes;
   }
 
-  uint8 NOTE_MAX_LENGTH = 100;
+  uint256 NOTE_MAX_LENGTH = 1000;
 
   mapping(address => Notebook) notebooks;
   mapping(address => bool) test;
