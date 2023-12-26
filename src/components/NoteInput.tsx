@@ -20,7 +20,7 @@ export function NoteInput() {
   }, [isSuccess, isClearSuccess])
 
   return (
-    <div className="flex sm:self-start">
+    <div className="flex sm:self-start pt-2 sm:mr-3">
       <input
         disabled={isLoading || isCLearLoading}
         className="border rounded px-2 flex-1"
