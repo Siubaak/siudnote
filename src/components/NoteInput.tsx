@@ -1,20 +1,25 @@
 import { encode } from '../utils/encoder';
 import { useEffect, useState } from 'react'
-import { useContractWrite, useWaitForTransaction } from 'wagmi'
+import { useWriteContract } from 'wagmi'
 import dnoteContract from '../contracts/dnote'
+
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
 
 export function NoteInput() {
   const [note, setNote] = useState('');
-  const { write, data, error } = useContractWrite({
-    ...dnoteContract,
-    functionName: 'write',
-  })
-  const { isLoading, isSuccess } = useWaitForTransaction({ hash: data?.hash })
-  const { write: clear, data: clearData, error: clearErr } = useContractWrite({
-    ...dnoteContract,
-    functionName: 'del',
-  })
-  const { isLoading: isCLearLoading, isSuccess: isClearSuccess } = useWaitForTransaction({ hash: clearData?.hash })
+  const { writeContract: write, error, isPending: isLoading, isSuccess } = useWriteContract()
+  const { writeContract: clear, error: clearErr, isPending: isCLearLoading, isSuccess: isClearSuccess } = useWriteContract()
 
   useEffect(() => {
     if (isSuccess || isClearSuccess) {
@@ -27,27 +32,36 @@ export function NoteInput() {
   }, [isSuccess, error, isClearSuccess, clearErr])
 
   return (
-    <div className="flex sm:self-start pt-2 sm:mr-3">
-      <input
-        disabled={isLoading || isCLearLoading}
-        className="border rounded px-2 flex-1"
-        placeholder="Write Note"
-        onChange={e => setNote(e.target.value)}
-      ></input>
-      <button
-        className="bg-slate-800 rounded ml-2 px-2 py-1 text-slate-100"
-        disabled={isLoading || isCLearLoading}
-        onClick={() => note && write({ args: [encode(note)] })}
-      >
-        {isLoading ? 'Saving' : 'Save' }
-      </button>
-      <button
-        className="bg-red-800 rounded ml-2 px-2 py-1 text-red-100"
-        disabled={isLoading || isCLearLoading}
-        onClick={() => clear({ args: [0, true] })}
-      >
-        {isCLearLoading ? 'Clearing' : 'Clear' }
-      </button>
-    </div>
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button className="w-full mx-3 my-6 max-w-md">Add</Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>What's in your mind?</DrawerTitle>
+          <DrawerDescription>
+            <Input
+              disabled={isLoading || isCLearLoading}
+              onChange={e => setNote(e.target.value)}
+            ></Input>
+          </DrawerDescription>
+        </DrawerHeader>
+        <DrawerFooter className='flex'>
+          <Button disabled={isLoading || isCLearLoading} onClick={() => note && write({
+            ...dnoteContract,
+            functionName: 'write',
+            args: [encode(note)]
+          })}>{isLoading ? 'Saving' : 'Save'}</Button>
+          <Button disabled={isLoading || isCLearLoading} onClick={() => note && clear({
+            ...dnoteContract,
+            functionName: 'del',
+            args: [0, true],
+          })}>{isCLearLoading ? 'Clearing' : 'Clear'}</Button>
+          <DrawerClose asChild>
+            <Button className="w-full" variant="outline">Cancel</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   )
 }

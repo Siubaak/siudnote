@@ -1,39 +1,22 @@
-import { configureChains, createConfig } from 'wagmi'
-import { goerli, mainnet, localhost, sepolia } from 'wagmi/chains'
-import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
-import { InjectedConnector } from 'wagmi/connectors/injected'
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-
-import { publicProvider } from 'wagmi/providers/public'
-
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  // [mainnet, ...(import.meta.env?.MODE === 'development' ? [goerli] : [])],
-  // [localhost],
-  [sepolia],
-  [
-    publicProvider(),
-  ],
-)
+import { http, createConfig } from 'wagmi'
+import { mainnet, sepolia } from 'wagmi/chains'
+import { coinbaseWallet, injected, walletConnect } from 'wagmi/connectors'
 
 export const config = createConfig({
-  autoConnect: true,
+  chains: [mainnet, sepolia],
   connectors: [
-    new MetaMaskConnector({ chains }),
-    // new CoinbaseWalletConnector({
-    //   chains,
-    //   options: {
-    //     appName: 'wagmi',
-    //   },
-    // }),
-    // new InjectedConnector({
-    //   chains,
-    //   options: {
-    //     name: 'Injected',
-    //     shimDisconnect: true,
-    //   },
-    // }),
+    injected(),
+    coinbaseWallet(),
+    walletConnect({ projectId: import.meta.env.VITE_WC_PROJECT_ID }),
   ],
-  publicClient,
-  webSocketPublicClient,
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+  },
 })
+
+declare module 'wagmi' {
+  interface Register {
+    config: typeof config
+  }
+}

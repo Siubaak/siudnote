@@ -1,9 +1,10 @@
 import { BaseError } from 'viem'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { Button } from '@/components/ui/button'
 
 export function Connect() {
   const { connector, isConnected, address } = useAccount()
-  const { connect, connectors, error, isLoading, pendingConnector } = useConnect()
+  const { connect, connectors, error, isPending } = useConnect()
   const { disconnect } = useDisconnect()
 
   const shorter = (addr: string | void) => addr && addr.slice(0, 6) + '...' + addr.slice(-4) || ''
@@ -12,19 +13,19 @@ export function Connect() {
     <div>
       {error && <span className="pr-2 text-red-800">{(error as BaseError).shortMessage}</span>}
 
-      {isConnected && (<>
-        <span title={address} className="pr-2 text-slate-100 hidden min-[360px]:inline">{shorter(address)}</span>
-        <button className="bg-red-100 rounded px-2 py-1 text-red-800" onClick={() => disconnect()}>
+      {!isPending && isConnected && (<>
+        <span title={address} className="pr-2 hidden min-[360px]:inline">{shorter(address)}</span>
+        <Button onClick={() => disconnect()}>
           Disconnect
-        </button>
+        </Button>
       </>)}
 
       {connectors
-        .filter((x) => x.name === 'MetaMask' && x.ready && x.id !== connector?.id)
+        .filter((x) => x.name === 'MetaMask' && x.id !== connector?.id)
         .map((x) => (
-          <button className="bg-slate-100 rounded px-4 py-2 text-slate-800" key={x.id} onClick={() => connect({ connector: x })}>
-            {isLoading && x.id === pendingConnector?.id ? 'Connecting' : x.name}
-          </button>
+          <Button key={x.id} onClick={() => connect({ connector: x })}>
+            {isPending ? 'Connecting' : x.name}
+          </Button>
         ))}
     </div>
   )
