@@ -46,14 +46,11 @@ export function NoteMenu({ index, children }: { index: number, children: ReactEl
         {children}
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuItem onClick={handleClick}>
-          Delete
-        </ContextMenuItem>
+        <ContextMenuItem onClick={handleClick}>Delete</ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   )
 }
-
 
 function NoteContent({ n }: { n: string }) {
   const ts: string[] = n.split(urlMatReg) || [n]
@@ -98,7 +95,7 @@ export function NoteCarousel() {
           <CarouselItem key={i}>
             <NoteMenu index={i}>
               <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6">
+                <CardContent className="flex aspect-square items-center justify-center p-6 select-none">
                   <NoteContent n={decode(n)}></NoteContent>
                 </CardContent>
               </Card>
