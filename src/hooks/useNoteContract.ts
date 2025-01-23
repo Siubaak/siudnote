@@ -33,7 +33,7 @@ export function useNoteContract() {
             setWaiting(false)
           }
         },
-        onError(error) {
+        onError(error: any) {
           alert(error.shortMessage)
           setWaiting(false)
         },
@@ -55,7 +55,7 @@ export function useNoteContract() {
             setWaiting(false)
           }
         },
-        onError(error) {
+        onError(error: any) {
           alert(error.shortMessage)
           setWaiting(false)
         },
