@@ -28,13 +28,13 @@ export function Connect() {
       location.reload()
     } else if (clearErr) {
       alert(clearErr)
+    } else if (error) {
+      alert(error)
     }
-  }, [isClearSuccess, clearErr])
+  }, [isClearSuccess, clearErr, error])
 
   return (
     <div>
-      {error && <span className="pr-2 text-red-800">{(error as BaseError).shortMessage}</span>}
-
       {!isPending && isConnected && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
