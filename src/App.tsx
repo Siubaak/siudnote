@@ -19,7 +19,7 @@ export default function App() {
         </div>
         {isConnected && (
           <>
-            <div className="h-full flex justify-center items-center">
+            <div className="h-full flex justify-center items-center pb-36">
               <NoteCarousel />
             </div>
             <NoteInput />

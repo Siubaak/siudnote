@@ -1,4 +1,3 @@
-import { BaseError } from 'viem'
 import { useEffect } from 'react'
 import { useAccount, useConnect, useDisconnect, useWriteContract } from 'wagmi'
 import { Button } from '@/components/ui/button'

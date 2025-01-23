@@ -82,6 +82,14 @@ export function NoteCarousel() {
     return <div className="w-full max-w-md aspect-square flex justify-center items-center">Empty</div>
   }
 
+  const bgMap = [
+    'bg-[hsl(var(--primary))]',
+    'bg-[hsl(var(--chart-2))]',
+    'bg-[hsl(var(--chart-3))]',
+    'bg-[hsl(var(--chart-4))]',
+    'bg-[hsl(var(--chart-5))]',
+  ]
+
   return (
     <Stack
       sendToBackOnClick
@@ -89,8 +97,8 @@ export function NoteCarousel() {
         id: i,
         children: (
           <NoteMenu index={i}>
-            <Card>
-              <CardContent className="flex aspect-square items-center justify-center p-6 select-none">
+            <Card className="border-0">
+              <CardContent className={'flex aspect-square items-center justify-center p-6 select-none text-primary-foreground ' + bgMap[i % 5]}>
                 <NoteContent n={decode(n)}></NoteContent>
               </CardContent>
             </Card>
