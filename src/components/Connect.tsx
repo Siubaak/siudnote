@@ -1,5 +1,4 @@
-import { useEffect } from 'react'
-import { useAccount, useConnect, useDisconnect, useWriteContract } from 'wagmi'
+import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -12,25 +11,13 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useTheme } from '@/components/ThemeProvider'
 import { SunMoon, Sun, Moon, Eraser, LogOut } from 'lucide-react';
-import dnoteContract from '../contracts/dnote'
 
-export function Connect() {
+export function Connect({ onClear }: any) {
   const { connector, isConnected, address } = useAccount()
-  const { connect, connectors, error, isPending } = useConnect()
+  const { connect, connectors, isPending } = useConnect()
   const { disconnect } = useDisconnect()
-  const { writeContract: clear, error: clearErr, isSuccess: isClearSuccess } = useWriteContract()
   const { theme, setTheme } = useTheme();
   const shorter = (addr: string | void) => addr && addr.slice(0, 6) + '...' + addr.slice(-4) || ''
-
-  useEffect(() => {
-    if (isClearSuccess) {
-      location.reload()
-    } else if (clearErr) {
-      alert(clearErr)
-    } else if (error) {
-      alert(error)
-    }
-  }, [isClearSuccess, clearErr, error])
 
   return (
     <div>
@@ -62,11 +49,7 @@ export function Connect() {
                 )
               }
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => clear({
-              ...dnoteContract,
-              functionName: 'del',
-              args: [0, true],
-            })}>
+            <DropdownMenuItem onClick={() => onClear()}>
               <Eraser />
               Clear
             </DropdownMenuItem>
