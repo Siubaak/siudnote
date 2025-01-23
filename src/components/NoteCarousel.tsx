@@ -54,7 +54,7 @@ function NoteContent({ n }: { n: string }) {
       ? [
           <span key={i}>{v}</span>,
           <a
-            className="text-slate-500"
+            className="underline text-[hsl(var(--input))]"
             key={`a${i}`}
             href={us[i]}
             target="_blank"
@@ -63,7 +63,7 @@ function NoteContent({ n }: { n: string }) {
         ]
       : [<span key={i}>{v}</span>]
   ), [])
-  return <>{c}</>
+  return <div className="break-all">{c}</div>
 }
 
 export function NoteCarousel() {
