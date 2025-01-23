@@ -32,14 +32,14 @@ export function NoteInput() {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button className="w-full mx-3 my-6 max-w-md">
+        <Button className="absolute rounded-full right-3 sm:right-6 bottom-6">
           <PencilRuler />
           Create
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>What's in your mind?</DrawerTitle>
+          <DrawerTitle>What's in your mind right now?</DrawerTitle>
           <DrawerDescription>
             <Input
               disabled={isLoading}

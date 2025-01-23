@@ -3,14 +3,8 @@ import { useEffect, ReactElement } from 'react'
 import { useAccount, useReadContract, useWriteContract } from 'wagmi'
 import dnoteContract from '../contracts/dnote'
 
+import { Stack } from '@/components/ui/stack'
 import { Card, CardContent } from '@/components/ui/card'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel'
 import {
   ContextMenu,
   ContextMenuContent,
@@ -89,22 +83,20 @@ export function NoteCarousel() {
   }
 
   return (
-    <Carousel className="w-full max-w-md">
-      <CarouselContent>
-        {(data as string[]).map((n, i) => (
-          <CarouselItem key={i}>
-            <NoteMenu index={i}>
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6 select-none">
-                  <NoteContent n={decode(n)}></NoteContent>
-                </CardContent>
-              </Card>
-            </NoteMenu>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious className="hidden sm:flex" />
-      <CarouselNext className="hidden sm:flex" />
-    </Carousel>
+    <Stack
+      sendToBackOnClick
+      cardsData={(data as string[]).map((n, i) => ({
+        id: i,
+        children: (
+          <NoteMenu index={i}>
+            <Card>
+              <CardContent className="flex aspect-square items-center justify-center p-6 select-none">
+                <NoteContent n={decode(n)}></NoteContent>
+              </CardContent>
+            </Card>
+          </NoteMenu>
+        )
+      }))}
+    ></Stack>
   )
 }
