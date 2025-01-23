@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform } from 'motion/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function CardRotate({ children, onSendToBack, sensitivity }: any) {
   const x = useMotionValue(0);
@@ -7,7 +7,7 @@ function CardRotate({ children, onSendToBack, sensitivity }: any) {
   const rotateX = useTransform(y, [-100, 100], [60, -60]);
   const rotateY = useTransform(x, [-100, 100], [-60, 60]);
 
-  function handleDragEnd(_, info) {
+  function handleDragEnd(_: any, info: any) {
     if (
       Math.abs(info.offset.x) > sensitivity ||
       Math.abs(info.offset.y) > sensitivity
@@ -38,8 +38,8 @@ export function Stack({ cardsData = [] }: any) {
   const [cards, setCards] = useState(cardsData);
   const size = 300;
 
-  const sendToBack = (id) => {
-    setCards((prev) => {
+  const sendToBack = (id: number) => {
+    setCards((prev: any) => {
       const newCards = [...prev];
       const index = newCards.findIndex((card) => card.id === id);
       const [card] = newCards.splice(index, 1);
@@ -57,7 +57,7 @@ export function Stack({ cardsData = [] }: any) {
         perspective: 600,
       }}
     >
-      {cards.map((card, index) => {
+      {cards.map((card: any, index: number) => {
         return (
           <CardRotate
             key={card.id}
