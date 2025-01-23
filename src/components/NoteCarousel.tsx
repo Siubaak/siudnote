@@ -78,7 +78,7 @@ export function NoteCarousel() {
     return <div className="w-full max-w-md aspect-square flex justify-center items-center">Loading</div>
   }
 
-  if (!(data as string[]).length) {
+  if (!(data as string[])?.length) {
     return <div className="w-full max-w-md aspect-square flex justify-center items-center">Empty</div>
   }
 
@@ -98,7 +98,7 @@ export function NoteCarousel() {
         children: (
           <NoteMenu index={i}>
             <Card className="border-0">
-              <CardContent className={'flex aspect-square items-center justify-center p-6 select-none text-primary-foreground ' + bgMap[i % 5]}>
+              <CardContent className={'flex aspect-square items-center justify-center p-6 select-none text-lg text-primary-foreground ' + bgMap[i % 5]}>
                 <NoteContent n={decode(n)}></NoteContent>
               </CardContent>
             </Card>
