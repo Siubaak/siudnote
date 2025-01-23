@@ -62,7 +62,7 @@ export function Stack({ cardsData = [] }: any) {
           <CardRotate
             key={card.id}
             onSendToBack={() => sendToBack(card.id)}
-            sensitivity={200}
+            sensitivity={100}
           >
             <motion.div
               className="absolute w-full h-full rounded-lg overflow-hidden"
